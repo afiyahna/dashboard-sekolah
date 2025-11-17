@@ -44,7 +44,13 @@ if (isset($_POST['simpan'])) {
 
   $insert = mysqli_query($db, "INSERT INTO tbl_siswa(nis,nama,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,alamat,no_hp,foto) VALUES(
     '$nis','$nama','$tempat_lahir','$tanggal_lahir','$jenis_kelamin','$agama','$alamat','$no_hp','$foto_db')") or die(mysqli_error($db));
-  if ($insert) header("Location: ../dashboard.php?page=siswa");
+  if ($insert) header("Location: ../dashboard.php?page=siswa&alert=1");
+
+  if ($simpan) {
+    header("Location: ../dashboard.php?page=siswa&alert=1");
+    exit();
+}
+
 }
 mysqli_close($db);
 ?>

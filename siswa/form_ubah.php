@@ -11,7 +11,7 @@ if (isset($_GET['nis'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id"> 
 
 <head>
     <meta charset="UTF-8">

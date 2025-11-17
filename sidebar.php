@@ -1,5 +1,5 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="admin.php" class="app-brand-link">
       <span class="app-brand-logo demo">
@@ -12,6 +12,7 @@
 
     <a href="javascript:void(0);" 
        class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+
       <i class="bx bx-chevron-left bx-sm align-middle"></i>
     </a>
   </div>
@@ -32,7 +33,7 @@
 
     <li class="menu-item">
       <a href="dashboard.php?page=guru" class="menu-link">
-    <div><i class="fa-sharp-duotone fa-solid fa-chalkboard-user"></i>Data Guru</div>
+    <div><i class="menu-icon tf-icons bx bx-user-chalkboard"></i>Data Guru</div>
 </a>
 
 
@@ -40,8 +41,8 @@
 
 <li class="menu-item">
       
-<a href="dashboard.php?page=siswa" class="menu-link"><i class="fa-duotone fa-thin fa-user"></i>
-    <div>Data Siswa</div>
+<a href="dashboard.php?page=siswa" class="menu-link">
+   <i class="menu-icon tf-icons bx bx-user"></i><div>Data Siswa</div>
 </a>
 
 

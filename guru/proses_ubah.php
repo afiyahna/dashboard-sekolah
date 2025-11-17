@@ -1,16 +1,16 @@
 <?php
-require_once "../module/dbcinnect.php";
+require_once "config/db.php";
 
 if (isset($_POST['ubah'])) {
   $NUPTK = mysqli_real_escape_string($db, $_POST['NUPTK']);
-  $nama = mysqli_real_escape_string($db, trim($_POST['nama']));
-  $gelar = mysqli_real_escape_string($db, trim($_POST['gelar']));
+  $Nama = mysqli_real_escape_string($db, trim($_POST['nama']));
+  $Gelar = mysqli_real_escape_string($db, trim($_POST['Gelar']));
   $tempat_lahir = mysqli_real_escape_string($db, trim($_POST['tempat_lahir']));
   $tanggal_lahir = mysqli_real_escape_string($db, trim($_POST['tanggal_lahir']));
   $jenis_kelamin = mysqli_real_escape_string($db, trim($_POST['jenis_kelamin']));
-  $agama = mysqli_real_escape_string($db, trim($_POST['agama']));
-  $alamat = mysqli_real_escape_string($db, trim($_POST['alamat']));
-  $no_hp = mysqli_real_escape_string($db, trim($_POST['no_hp']));
+  $Agama = mysqli_real_escape_string($db, trim($_POST['Agama']));
+  $Alamat = mysqli_real_escape_string($db, trim($_POST['Alamat']));
+  $No_Hp = mysqli_real_escape_string($db, trim($_POST['No_Hp']));
 
   $foto_lama = mysqli_real_escape_string($db, $_POST['foto_lama']);
   $nama_file = $_FILES['foto']['name'];
@@ -39,18 +39,22 @@ if (isset($_POST['ubah'])) {
   }
 
   $update = mysqli_query($db, "UPDATE tbl_guru SET
-    nama='$nama',
-    gelar='$gelar',
+    nama='$Nama',
+    Gelar='$Gelar',
     tempat_lahir='$tempat_lahir',
     tanggal_lahir='$tanggal_lahir',
     jenis_kelamin='$jenis_kelamin',
-    agama='$agama',
-    alamat='$alamat',
-    no_hp='$no_hp',
+    Agama='$Agama',
+    Alamat='$Alamat',
+    No_Hp='$No_Hp',
     foto='$foto_db'
     WHERE NUPTK='$NUPTK'") or die(mysqli_error($db));
 
-  if ($update) header("Location: index.php?alert=2");
+  if ($update) {
+    header("Location: ../dashboard.php?page=guru&alert=2");
+    exit();
+}
+
 }
 mysqli_close($db);
-?>j
+?>

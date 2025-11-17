@@ -48,7 +48,10 @@ if (isset($_POST['ubah'])) {
     foto='$foto_db'
     WHERE nis='$nis'") or die(mysqli_error($db));
 
-  if ($update) header("Location: index.php?alert=2");
+  if ($update) {
+    header("Location: ../dashboard.php?page=siswa&alert=2");
+    exit();
+}
 }
 mysqli_close($db);
 ?>

@@ -1,19 +1,28 @@
 <?php
-// Detail Koneksi Database
-$host     = "localhost"; // Biasanya 'localhost' jika di server lokal
-$username = "root";      // Ganti dengan username MySQL Anda (default XAMPP/WAMP adalah 'root')
-$password = "ppkpi";          // Ganti dengan password MySQL Anda (default XAMPP/WAMP adalah kosong)
-$database = "manajemen_guru"; // Ganti dengan nama database yang Anda buat di MySQL Workbench
-
-// Membuat koneksi
-$koneksi = new mysqli($host, $username, $password, $database);
-
-// Memeriksa koneksi
-if ($koneksi->connect_error) {
-    // Jika koneksi gagal, hentikan script dan tampilkan error
-    die("Koneksi gagal: " . $koneksi->connect_error);
+if (!isset($_SESSION)) {
+    session_start();
 }
 
-// Opsional: Pesan sukses (hanya untuk debugging)
-// echo "Koneksi berhasil!"; 
+// Detail Koneksi Database
+$host = "localhost";
+$username = "root";
+$password = "ppkpi";
+$database = "sekolah";
+
+// Membuat koneksi
+$db = new mysqli($host, $username, $password, $database);
+
+// Jika koneksi gagal
+if ($db->connect_error) {
+    die("Koneksi gagal: " . $db->connect_error);
+}
+
+// (untuk backward compatibility, kalau ada file lama masih pakai $koneksi)
+$koneksi = $db;
+
+// Konfigurasi
+$config = [
+    'dir_root' => 'http://localhost/dashboard-sekolah/',
+    'site_root' => __DIR__
+];
 ?>

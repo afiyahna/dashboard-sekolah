@@ -1,5 +1,5 @@
 <?php
-require_once "../module/dbconnect.php";
+require_once "config/db.php";
 
 if (!isset($_GET['NUPTK'])) {
   echo "<script>alert('NUPTK tidak ditemukan'); window.close();</script>";
@@ -7,7 +7,7 @@ if (!isset($_GET['NUPTK'])) {
 }
 
 $NUPTK = mysqli_real_escape_string($db, $_GET['NUPTK']);
-$query = mysqli_query($db, "SELECT * FROM tbl_guru WHERE nis='$NUPTK'") or die(mysqli_error($db));
+$query = mysqli_query($db, "SELECT * FROM tbl_guru WHERE NUPTK='$NUPTK'") or die(mysqli_error($db));
 $data = mysqli_fetch_assoc($query);
 
 if (!$data) {
@@ -63,13 +63,13 @@ if (!$data) {
       <div class="col-md-9">
         <table class="table table-borderless">
           <tr><th>NUPTK</th><td>: <?php echo $data['NUPTK']; ?></td></tr>
-          <tr><th>Nama</th><td>: <?php echo $data['nama']; ?></td></tr>
+          <tr><th>Nama</th><td>: <?php echo $data['Nama']; ?></td></tr>
           <tr><th>Tempat, Tanggal Lahir</th><td>: <?php echo $data['tempat_lahir'].", ".date('d-m-Y', strtotime($data['tanggal_lahir'])); ?></td></tr>
           <tr><th>Jenis Kelamin</th><td>: <?php echo $data['jenis_kelamin']; ?></td></tr>
-          <tr><th>Gelar</th><td>: <?php echo $data['gelar']; ?></td></tr>
-          <tr><th>Agama</th><td>: <?php echo $data['agama']; ?></td></tr>
-          <tr><th>Alamat</th><td>: <?php echo $data['alamat']; ?></td></tr>
-          <tr><th>No HP</th><td>: <?php echo $data['no_hp']; ?></td></tr>
+          <tr><th>Gelar</th><td>: <?php echo $data['Gelar']; ?></td></tr>
+          <tr><th>Agama</th><td>: <?php echo $data['Agama']; ?></td></tr>
+          <tr><th>Alamat</th><td>: <?php echo $data['Alamat']; ?></td></tr>
+          <tr><th>No HP</th><td>: <?php echo $data['No_Hp']; ?></td></tr>
         </table>
       </div>
     </div>
@@ -78,7 +78,7 @@ if (!$data) {
       <button class="btn btn-primary" onclick="window.print()">
         <i class="fas fa-print"></i> Cetak Halaman Ini
       </button>
-      <a href="index.php" class="btn btn-secondary">Kembali</a>
+      <a href="../dashboard.php?page=siswa" class="btn btn-secondary">Kembali</a>
     </div>
   </div>
 

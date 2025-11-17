@@ -1,5 +1,5 @@
 <?php
-require_once "../module/dbconnect.php";
+require_once "config/db.php";
 
 if (isset($_GET['NUPTK'])) {
   $NUPTK = mysqli_real_escape_string($db, $_GET['NUPTK']);
@@ -11,7 +11,9 @@ if (isset($_GET['NUPTK'])) {
   $del = mysqli_query($db, "DELETE FROM tbl_guru WHERE NUPTK='$NUPTK'") or die(mysqli_error($db));
   if ($del) {
     if ($foto != 'default.png' && file_exists('foto/'.$foto)) unlink('foto/'.$foto);
-    header("Location: index.php?alert=3");
+    header("Location: ../dashboard.php?page=guru&alert=3");
+exit();
+
   }
 }
 mysqli_close($db);

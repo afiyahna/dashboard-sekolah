@@ -1,5 +1,24 @@
 <?php
-require_once "../module/dbconnect.php";
+require_once 'config/db.php';  // Pastikan koneksi DB ada
+
+
+// Ambil parameter 'page' dari URL
+$page = isset($_GET['page']) ? $_GET['page'] : '';
+
+// Halaman untuk ubah data siswa
+if ($page == 'ubah' && isset($_GET['NUPTK'])) {
+    $NUPTK = $_GET['NUPTK'];  // Ambil nilai NIS dari URL
+
+    // Query untuk mengambil data siswa berdasarkan NIS
+    $query = mysqli_query($db, "SELECT * FROM tbl_guru WHERE NUPTK='$NUPTK'");
+    if ($query) {
+        $data = mysqli_fetch_assoc($query); // Ambil data siswa yang cocok dengan NIS
+        include 'guru/form_ubah.php';  // Tampilkan form ubah siswa
+    } else {
+        echo "Data tidak ditemukan!";
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="id">
@@ -16,19 +35,43 @@ require_once "../module/dbconnect.php";
   </div>
 
   <div class="container mt-3">
+    <!-- Konten utama sesuai page -->
     <?php
-      if (empty($_GET["page"])) {
-        include "tampil_data.php";
-      } elseif ($_GET['page']=='tambah') {
-        include "form_tambah.php";
-      } elseif ($_GET['page']=='ubah') {
-        include "form_ubah.php";
-      } 
+      // Menampilkan form atau data sesuai dengan parameter page
+      if ($page == 'ubah') {
+        include "form_ubah.php";  // Menampilkan form ubah siswa
+      } elseif ($page == 'tambah') {
+        include "form_tambah.php";  // Menampilkan form tambah siswa
+      } else {
+        include "tampil_data.php";  // Menampilkan data siswa
+      }
     ?>
+
+
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="sneat/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="sneat/assets/vendor/libs/popper/popper.js"></script>
+    <script src="sneat/assets/vendor/js/bootstrap.js"></script>
+    <script src="sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="sneat/assets/vendor/js/menu.js"></script>
+
+    <!-- Vendors JS -->
+    <script src="sneat/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="sneat/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="sneat/assets/js/dashboards-analytics.js"></script>
+
+
+
 </body>
+
 </html>

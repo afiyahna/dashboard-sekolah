@@ -1,16 +1,19 @@
 <?php
-require_once "../module/dbconnect.php";
+ require_once "config/database.php";
 
+ 
 if (isset($_POST['simpan'])) {
-  $nuptk = mysqli_real_escape_string($db, trim($_POST['nuptk']));
-  $nama = mysqli_real_escape_string($db, trim($_POST['nama']));
-  $gelar = mysqli_real_escape_string($db, trim($_POST['gelar']));
+
+ $NUPTK = mysqli_real_escape_string($db, $_POST['NUPTK']);
+  $Nama = mysqli_real_escape_string($db, trim($_POST['nama']));
+  $Gelar = mysqli_real_escape_string($db, trim($_POST['Gelar']));
   $tempat_lahir = mysqli_real_escape_string($db, trim($_POST['tempat_lahir']));
   $tanggal_lahir = mysqli_real_escape_string($db, trim($_POST['tanggal_lahir']));
   $jenis_kelamin = mysqli_real_escape_string($db, trim($_POST['jenis_kelamin']));
-  $agama = mysqli_real_escape_string($db, trim($_POST['agama']));
-  $alamat = mysqli_real_escape_string($db, trim($_POST['alamat']));
-  $no_hp = mysqli_real_escape_string($db, trim($_POST['no_hp']));
+  $Agama = mysqli_real_escape_string($db, trim($_POST['Agama']));
+  $Alamat = mysqli_real_escape_string($db, trim($_POST['Alamat']));
+  $No_Hp = mysqli_real_escape_string($db, trim($_POST['No_Hp']));
+
 
   $nama_file = $_FILES['foto']['name'];
   $tmp_file = $_FILES['foto']['tmp_name'];
@@ -45,7 +48,14 @@ if (isset($_POST['simpan'])) {
 
   $insert = mysqli_query($db, "INSERT INTO tbl_guru(nuptk,nama,gelar,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,alamat,no_hp,foto) VALUES(
     '$nuptk','$nama','$tempat_lahir','$tanggal_lahir','$jenis_kelamin','$agama','$alamat','$no_hp','$foto_db')") or die(mysqli_error($db));
-  if ($insert) header("Location: index.php?alert=1");
-}
+  if ($insert) header("Location: ../dashboard.php?page=guru&alert=1");
+
+  if ($simpan) {
+    header("Location: ../dashboard.php?page=guru&alert=1");
+    exit();
+  
+  }
+
+  }
 mysqli_close($db);
 ?>

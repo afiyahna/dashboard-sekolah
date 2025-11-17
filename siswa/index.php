@@ -57,5 +57,20 @@ if ($page == 'ubah' && isset($_GET['nis'])) {
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="sneat/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="sneat/assets/vendor/libs/popper/popper.js"></script>
+    <script src="sneat/assets/vendor/js/bootstrap.js"></script>
+    <script src="sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="sneat/assets/vendor/js/menu.js"></script>
+
+    <!-- Vendors JS -->
+    <script src="sneat/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="sneat/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="sneat/assets/js/dashboards-analytics.js"></script>
 </body>
 </html>

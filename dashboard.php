@@ -1,11 +1,26 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
-// koneksi DB
-require_once __DIR__ . '/module/dbconnect.php';
+<?php
+session_start();
+
+// Jika session tidak ada → tendang ke halaman login
+if (!isset($_SESSION['user_id'])) {
+
+    // Hapus semua session
+    session_unset();
+    session_destroy();
+
+    // Buat ID session baru agar tidak reuse session lama
+    session_regenerate_id(true);
+
+    // Redirect ke halaman login
+    header("Location: login/index.html");
+    exit();
+}
 ?>
+
+<!-- <h2>Selamat Datang, <?php echo $_SESSION['Nama']; ?>!</h2>
+<a href="logout.php">Logout</a> -->
+
   
 <!DOCTYPE html>
 <html
@@ -78,8 +93,8 @@ if (!isset($_GET['page'])) {
     <!-- Dashboard Utama -->
     <section class="section text-center mt-5">
       <div class="container">
-        <h2 class="mb-4">Ahlan wa Sahlan, Admin Tahsinians</h2>
-        <p>Terus Semangat Mengejar Ridho Allah SWT 🧡</p>
+        <h2 class="mb-4">Selamat datang AFIYAH 🙌 </h2>
+        <p>Selamat bertugas menjadi Admin Sekolah Alam</p>
 
         <div class="row mt-5">
           <div class="col-md-4 mb-4">

@@ -11,7 +11,8 @@ if (isset($_GET['nis'])) {
   $del = mysqli_query($db, "DELETE FROM tbl_siswa WHERE nis='$nis'") or die(mysqli_error($db));
   if ($del) {
     if ($foto != 'default.png' && file_exists('foto/'.$foto)) unlink('foto/'.$foto);
-    header("Location: ../dashboard.php?page=siswa");
+    header("Location: ../dashboard.php?page=siswa&alert=3");
+exit();
   }
 }
 mysqli_close($db);
