@@ -1,22 +1,80 @@
-
 <?php
 session_start();
 
-// Jika session tidak ada → tendang ke halaman login
+// Cek session login
 if (!isset($_SESSION['user_id'])) {
-
-    // Hapus semua session
     session_unset();
     session_destroy();
-
-    // Buat ID session baru agar tidak reuse session lama
     session_regenerate_id(true);
-
-    // Redirect ke halaman login
     header("Location: login/index.html");
     exit();
 }
+
+include "module/dbconnect.php";
+
+
+
+// Hitung total siswa (tabel siswa)
+$qSiswa = mysqli_query($db, "SELECT COUNT(*) AS total_siswa FROM siswa");
+$total_siswa = mysqli_fetch_assoc($qSiswa)['total_siswa'];
+
+// Hitung total guru (tabel registrasi guru)
+$qGuru = mysqli_query($db, "SELECT COUNT(*) AS total_guru FROM tbl_guru");
+$total_guru = mysqli_fetch_assoc($qGuru)['total_guru'];
+
+
+// ==============================================
+// RESET DATA SISWA DAN MASUKKAN DATA BARU
+// ==============================================
+
+mysqli_query($db, "TRUNCATE TABLE siswa");
+
+$tahun_sekarang = date('Y');
+$tahun_awal     = $tahun_sekarang - 4;
+
+$jumlah_awal = 20; // tahun pertama
+$kenaikan    = 5;  // naik 5 tiap tahun
+
+$tahun_ke = 0;
+
+for ($tahun = $tahun_awal; $tahun <= $tahun_sekarang; $tahun++) {
+
+    $jumlah_tahun_ini = $jumlah_awal + ($kenaikan * $tahun_ke);
+
+    for ($i = 1; $i <= $jumlah_tahun_ini; $i++) {
+        $nama_fake = "Siswa_" . $tahun . "_" . $i;
+        $created_at = $tahun . "-" . rand(1,12) . "-" . rand(1,28);
+
+        mysqli_query($db, "
+            INSERT INTO siswa(nama, tahun_masuk, created_at)
+            VALUES ('$nama_fake', '$tahun', '$created_at')
+        ");
+    }
+
+    $tahun_ke++;
+}
+
+/* =======================================================
+   AMBIL DATA UNTUK CHART
+   ======================================================= */
+
+$q_siswa = mysqli_query($db, "
+    SELECT tahun_masuk, COUNT(*) AS total 
+    FROM siswa 
+    GROUP BY tahun_masuk 
+    ORDER BY tahun_masuk ASC
+");
+
+$labels = [];
+$values = [];
+
+while ($row = mysqli_fetch_assoc($q_siswa)) {
+    $labels[] = $row['tahun_masuk'];
+    $values[] = $row['total'];
+}
+
 ?>
+
 
 <!-- <h2>Selamat Datang, <?php echo $_SESSION['Nama']; ?>!</h2>
 <a href="logout.php">Logout</a> -->
@@ -39,6 +97,11 @@ if (!isset($_SESSION['user_id'])) {
     />
 
     <title>Dashboard Admin</title>
+
+    <!-- link bootstrap -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="sneat/assets/img/favicon/favicon.ico" />
@@ -93,41 +156,61 @@ if (!isset($_GET['page'])) {
     <!-- Dashboard Utama -->
     <section class="section text-center mt-5">
       <div class="container">
-        <h2 class="mb-4">Selamat datang AFIYAH 🙌 </h2>
+        <h2 class="mb-4">Selamat datang, AFIYAH 🙌 </h2>
         <p>Selamat bertugas menjadi Admin Sekolah Alam</p>
 
-        <div class="row mt-5">
-          <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm" onclick="location.href='validasi.php'">
-              <div class="card-body text-center">
-                <i class="bx bx-user-check display-4 text-primary mb-3"></i>
-                <h5 class="card-title">Validasi Admin</h5>
-                <p class="card-text">Kelola dan verifikasi akun admin baru.</p>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm" onclick="location.href='daftar_peserta.php'">
-              <div class="card-body text-center">
-                <i class="bx bx-group display-4 text-danger mb-3"></i>
-                <h5 class="card-title">Daftar Peserta</h5>
-                <p class="card-text">Lihat seluruh peserta yang terdaftar.</p>
-              </div>
-            </div>
-          </div>
+        <div class="row">
 
-          <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm" onclick="location.href='admin/progress_input.php'">
-              <div class="card-body text-center">
-                <i class="bx bx-line-chart display-4 text-success mb-3"></i>
-                <h5 class="card-title">Update Kemajuan</h5>
-                <p class="card-text">Perbarui progres peserta di laman user.</p>
-              </div>
-            </div>
-          </div>
-        </div>  
+  <!-- Total Siswa -->
+  <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+    <div class="card">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="card-title mb-1">Total Siswa</h5>
+          <h3 class="mb-0"><?php echo $total_siswa; ?></h3>
+        </div>
+        <div class="avatar flex-shrink-0">
+          <span class="avatar-initial rounded bg-primary">
+            <i class="bx bx-user"></i>
+          </span>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Total Guru -->
+  <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+    <div class="card">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="card-title mb-1">Total Guru</h5>
+          <h3 class="mb-0"><?php echo $total_guru; ?></h3>
+        </div>
+        <div class="avatar flex-shrink-0">
+          <span class="avatar-initial rounded bg-warning">
+            <i class="bx bx-user-voice"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+        <div class="row mt-4">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Grafik Pertumbuhan Siswa Masuk</h5>
+      </div>
+      <div class="card-body">
+        <div id="chart-siswa"></div>
+      </div>
+    </div>
+  </div>
+</div>
     </section>
 <?php
 }
@@ -137,6 +220,14 @@ elseif ($_GET['page'] == "guru") {
 elseif ($_GET['page'] == "siswa") {
     include "siswa/tampil_data.php";
 }
+
+elseif ($_GET['page'] == "jenjang_kelas") {
+    include "pages/jenjang_kelas.php";
+}
+elseif ($_GET['page'] == "detail_kelas") {
+    include "pages/detail_kelas.php";
+}
+
 else {
     echo "<h3 class='text-center mt-5'>Halaman tidak ditemukan.</h3>";
 }
@@ -146,6 +237,7 @@ else {
 
             </section>
             <!-- / Content -->
+              
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
@@ -189,6 +281,32 @@ else {
 
     <!-- Vendors JS -->
     <script src="sneat/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var options = {
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        series: [{
+            name: "Jumlah Siswa",
+            data: <?php echo json_encode($values); ?>
+        }],
+        xaxis: {
+            categories: <?php echo json_encode($labels); ?>
+        },
+        colors: ['#b9b3c3fc'],
+        plotOptions: {
+            bar: {
+                borderRadius: 5
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart-siswa"), options);
+    chart.render();
+});
+</script>
 
     <!-- Main JS -->
     <script src="sneat/assets/js/main.js"></script>

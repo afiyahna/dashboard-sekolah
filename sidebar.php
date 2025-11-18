@@ -2,12 +2,18 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="admin.php" class="app-brand-link">
+     <!-- Logo -->
       <span class="app-brand-logo demo">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" width="32">
+        <img src="sneat/assets/img/logo.png" width="40" height="40">
       </span>
-      <span class="app-brand-text demo menu-text fw-bolder ms-2">
-        Tahsinians
+
+      <!-- Brand Text -->
+      <span class="app-brand-text demo menu-text fw-bolder ms-3 d-flex align-items-center" style="line-height: 1.2;">
+        
+        <span>Sekolah Cinta Alam</span>
+        
       </span>
+
     </a>
 
     <a href="javascript:void(0);" 
@@ -73,19 +79,15 @@
       </a>
     </li>
 
+    
     <li class="menu-item">
-      <a href="jenjang.php" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-layer"></i>
-        <div>Jenjang Kelas</div>
-      </a>
-    </li>
+  <a href="dashboard.php?page=jenjang_kelas" class="menu-link">
+    <i class="menu-icon tf-icons bx bx-layer"></i>
+    <div>Jenjang Kelas</div>
+  </a>
+</li>
 
-    <li class="menu-item">
-      <a href="extended.php" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-grid"></i>
-        <div>Extended UI</div>
-      </a>
-    </li>
+
 
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Forms & Tables</span>
